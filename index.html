@@ -33,7 +33,26 @@
   </header>
 
   <!-- fo resze a weboldalnak -->
-  <main>
+  <main class="main-wrapper">
+    <section class="todo-card">
+      <header class="todo-header">
+        <h1 class="todo-title">To-Do List</h1>
+        <p class="todo-subtitle">Don't wait till' tomorrow!</p>
+      </header>
+
+      <!-- task bemenetenek formja -->
+      <form id="todo-form" class="todo-form">
+        <div class="input-row">
+          <input 
+            type="text" 
+            id="todo-input" 
+            placeholder="Type your task here" 
+            autocomplete="off" 
+            required 
+          />
+          <button type="submit" class="btn btn-primary">Add Task</button>
+        </div>
+      </form>
     
   </main>
   <script src="app.js"></script>
