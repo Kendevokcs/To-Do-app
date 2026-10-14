@@ -13,6 +13,29 @@
   
 </head>
 <body>
+
+  <!-- felso navigacios resz / auth -->
+  <header class="top-nav">
+    <div class="logo">MaybeTomorrow</div>
+    <div class="auth-bar">
+      <!-- kijelentkezett nézet -->
+      <div id="logged-out-view">
+        <button id="btn-open-login" class="btn btn-outline">Log In</button>
+        <button id="btn-open-signup" class="btn btn-primary">Sign Up</button>
+      </div>
+
+      <!-- bejelentkezett nézet -->
+      <div id="logged-in-view" class="hidden">
+        <span id="user-display" class="user-badge">user@example.com</span>
+        <button id="btn-logout" class="btn btn-outline">Log Out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- fo resze a weboldalnak -->
+  <main>
+    
+  </main>
   <script src="app.js"></script>
 </body>
 </html>
