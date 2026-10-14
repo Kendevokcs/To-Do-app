@@ -53,8 +53,19 @@
           <button type="submit" class="btn btn-primary">Add Task</button>
         </div>
       </form>
-    
+
+      <!-- task listának a konténere -->
+      <div id="todo-status-message" class="status-msg">Loading tasks... Please wait!</div>
+      <ul id="todo-list" class="todo-list"></ul>
+
+      <!-- footerben megjeleno informaciok / adatok -->
+      <footer id="todo-footer" class="todo-footer hidden">
+        <span id="items-left">0 tasks left</span>
+        <button id="btn-clear-completed" class="btn-text">Clear Tasks</button>
+      </footer>
+    </section>
   </main>
+  
   <script src="app.js"></script>
 </body>
 </html>
