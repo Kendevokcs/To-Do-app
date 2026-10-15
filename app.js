@@ -40,3 +40,9 @@ const todoStatusMessage = document.getElementById("todo-status-message");
 const todoFooter = document.getElementById("todo-footer");
 const itemsLeft = document.getElementById("items-left");
 const btnClearCompleted = document.getElementById("btn-clear-completed");
+
+let currentUser = null;
+let unsubscribeTodos = null;
+let currentAuthMode = "login"; 
+
+
