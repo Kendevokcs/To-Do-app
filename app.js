@@ -12,3 +12,31 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
+
+// értékek
+const loggedOutView = document.getElementById("logged-out-view");
+const loggedInView = document.getElementById("logged-in-view");
+const userDisplay = document.getElementById("user-display");
+const btnOpenLogin = document.getElementById("btn-open-login");
+const btnOpenSignup = document.getElementById("btn-open-signup");
+const btnLogout = document.getElementById("btn-logout");
+
+const authModal = document.getElementById("auth-modal");
+const btnCloseModal = document.getElementById("btn-close-modal");
+const modalTitle = document.getElementById("modal-title");
+const tabLogin = document.getElementById("tab-login");
+const tabSignup = document.getElementById("tab-signup");
+const authForm = document.getElementById("auth-form");
+const authEmail = document.getElementById("auth-email");
+const authPassword = document.getElementById("auth-password");
+const authSubmitBtn = document.getElementById("auth-submit-btn");
+const authError = document.getElementById("auth-error");
+const btnGuestLogin = document.getElementById("btn-guest-login");
+
+const todoForm = document.getElementById("todo-form");
+const todoInput = document.getElementById("todo-input");
+const todoList = document.getElementById("todo-list");
+const todoStatusMessage = document.getElementById("todo-status-message");
+const todoFooter = document.getElementById("todo-footer");
+const itemsLeft = document.getElementById("items-left");
+const btnClearCompleted = document.getElementById("btn-clear-completed");
