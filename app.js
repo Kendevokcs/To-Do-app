@@ -45,4 +45,44 @@ let currentUser = null;
 let unsubscribeTodos = null;
 let currentAuthMode = "login"; 
 
+auth.onAuthStateChanged((user) => {
+  currentUser = user;
+
+  if (user) {
+    loggedOutView.classList.add("hidden");
+    loggedInView.classList.remove("hidden");
+    userDisplay.textContent = user.isAnonymous 
+      ? "Guest User" 
+      : (user.email || "User");
+    closeModal();
+    listenToTodos(user.uid);
+  } else {
+    loggedOutView.classList.remove("hidden");
+    loggedInView.classList.add("hidden");
+    if (unsubscribeTodos) unsubscribeTodos();
+    renderTasks([]);
+    todoStatusMessage.textContent = "Please log in or sign up to save your tasks.";
+    todoStatusMessage.classList.remove("hidden");
+    todoFooter.classList.add("hidden");
+  }
+});
+
+function setAuthMode(mode) {
+  currentAuthMode = mode;
+  authError.classList.add("hidden");
+  authError.textContent = "";
+
+  if (mode === "login") {
+    modalTitle.textContent = "Log In";
+    authSubmitBtn.textContent = "Log In";
+    tabLogin.classList.add("active");
+    tabSignup.classList.remove("active");
+  } else {
+    modalTitle.textContent = "Sign Up";
+    authSubmitBtn.textContent = "Sign Up";
+    tabSignup.classList.add("active");
+    tabLogin.classList.remove("active");
+  }
+}
+
 
