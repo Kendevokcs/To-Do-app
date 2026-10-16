@@ -94,6 +94,36 @@ function closeModal() {
   authModal.classList.add("hidden");
   authError.classList.add("hidden");
 }
+// modal event listeners
+btnOpenLogin.addEventListener("click", () => openModal("login"));
+btnOpenSignup.addEventListener("click", () => openModal("signup"));
+btnCloseModal.addEventListener("click", closeModal);
+tabLogin.addEventListener("click", () => setAuthMode("login"));
+tabSignup.addEventListener("click", () => setAuthMode("signup"));
+
+// close modal if background overlay clicked
+authModal.addEventListener("click", (e) => {
+  if (e.target === authModal) closeModal();
+});
+
+// handle email and password
+authForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  authError.classList.add("hidden");
+  const email = authEmail.value.trim();
+  const password = authPassword.value;
+
+  try {
+    if (currentAuthMode === "login") {
+      await auth.signInWithEmailAndPassword(email, password);
+    } else {
+      await auth.createUserWithEmailAndPassword(email, password);
+    }
+  } catch (err) {
+    authError.textContent = err.message || "Authentication failed. Try again.";
+    authError.classList.remove("hidden");
+  }
+});
 
 
 
