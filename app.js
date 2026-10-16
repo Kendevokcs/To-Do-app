@@ -84,5 +84,16 @@ function setAuthMode(mode) {
     tabLogin.classList.remove("active");
   }
 }
+function openModal(mode = "login") {
+  setAuthMode(mode);
+  authForm.reset();
+  authModal.classList.remove("hidden");
+}
+
+function closeModal() {
+  authModal.classList.add("hidden");
+  authError.classList.add("hidden");
+}
+
 
 
