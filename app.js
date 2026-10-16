@@ -94,19 +94,19 @@ function closeModal() {
   authModal.classList.add("hidden");
   authError.classList.add("hidden");
 }
-// modal event listeners
+
 btnOpenLogin.addEventListener("click", () => openModal("login"));
 btnOpenSignup.addEventListener("click", () => openModal("signup"));
 btnCloseModal.addEventListener("click", closeModal);
 tabLogin.addEventListener("click", () => setAuthMode("login"));
 tabSignup.addEventListener("click", () => setAuthMode("signup"));
 
-// close modal if background overlay clicked
+
 authModal.addEventListener("click", (e) => {
   if (e.target === authModal) closeModal();
 });
 
-// handle email and password
+// email cim es jelszo
 authForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   authError.classList.add("hidden");
@@ -124,6 +124,21 @@ authForm.addEventListener("submit", async (e) => {
     authError.classList.remove("hidden");
   }
 });
+//guest bejelentkezes
+btnGuestLogin.addEventListener("click", async () => {
+  try {
+    await auth.signInAnonymously();
+  } catch (err) {
+    authError.textContent = err.message || "Failed to sign in as guest.";
+    authError.classList.remove("hidden");
+  }
+});
+
+// kijelentkezes
+btnLogout.addEventListener("click", () => {
+  auth.signOut();
+});
+
 
 
 
