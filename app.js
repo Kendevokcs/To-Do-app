@@ -167,7 +167,8 @@ function listenToTodos(userId) {
       }
     );
 }
-
+ todoInput.value = ""; 
+  todoInput.focus() 
 
 
 
