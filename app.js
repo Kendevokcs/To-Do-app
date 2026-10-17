@@ -138,6 +138,35 @@ btnGuestLogin.addEventListener("click", async () => {
 btnLogout.addEventListener("click", () => {
   auth.signOut();
 });
+function getTodosRef(userId) {
+  // own 'todos' for each user
+  return db.collection("users").doc(userId).collection("todos");
+}
+
+// real time sync
+function listenToTodos(userId) {
+  todoStatusMessage.textContent = "Loading tasks...";
+  todoStatusMessage.classList.remove("hidden");
+
+  if (unsubscribeTodos) unsubscribeTodos();
+
+  unsubscribeTodos = getTodosRef(userId)
+    .orderBy("createdAt", "desc")
+    .onSnapshot(
+      (snapshot) => {
+        const todos = [];
+        snapshot.forEach((doc) => {
+          todos.push({ id: doc.id, ...doc.data() });
+        });
+        renderTasks(todos);
+      },
+      (error) => {
+        console.error("Firestore error:", error);
+        todoStatusMessage.textContent = "Error loading tasks.";
+        todoStatusMessage.classList.remove("hidden");
+      }
+    );
+}
 
 
 
