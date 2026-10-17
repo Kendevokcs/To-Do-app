@@ -193,5 +193,131 @@ todoForm.addEventListener("submit", async (e) => {
     alert("Could not save task. Please try again.");
   }
 });
+createColorOptions.addEventListener("click", (e) => {
+  const btn = e.target.closest(".color-btn");
+  if (!btn) return;
 
+  createColorOptions.querySelectorAll(".color-btn").forEach((b) => b.classList.remove("active"));
+  btn.classList.add("active");
+  selectedColor = btn.dataset.color || "default";
+});
+
+function renderTasks(todos) {
+  todoList.innerHTML = "";
+
+  if (todos.length === 0) {
+    todoStatusMessage.textContent = currentUser ? "No tasks yet." : "Please log in to save your tasks.";
+    todoStatusMessage.classList.remove("hidden");
+    todoFooter.classList.add("hidden");
+    return;
+  }
+
+  todoStatusMessage.classList.add("hidden");
+  todoFooter.classList.remove("hidden");
+
+  let activeCount = 0;
+
+  todos.forEach((todo) => {
+    if (!todo.completed) activeCount++;
+
+    const li = document.createElement("li");
+
+    const colorClass = todo.color && todo.color !== "default" ? `theme-${todo.color}` : "";
+    li.className = `todo-item ${todo.completed ? "completed" : ""} ${colorClass}`.trim();
+
+  
+    const left = document.createElement("div");
+    left.className = "todo-left";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = !!todo.completed;
+    checkbox.addEventListener("change", () => toggleTodo(todo.id, !todo.completed));
+
+    const span = document.createElement("span");
+    span.className = "todo-text";
+    span.textContent = todo.text;
+
+    left.appendChild(checkbox);
+    left.appendChild(span);
+
+  
+    const right = document.createElement("div");
+    right.className = "todo-right";
+
+    const inlinePicker = document.createElement("div");
+    inlinePicker.className = "inline-color-picker";
+
+    const colors = ["default", "blue", "green", "red", "yellow"];
+    colors.forEach((c) => {
+      const dot = document.createElement("button");
+      dot.className = `inline-color-dot color-${c === "default" ? "none" : c}`;
+      dot.title = `Change to ${c}`;
+      dot.type = "button";
+      dot.addEventListener("click", () => updateTodoColor(todo.id, c));
+      inlinePicker.appendChild(dot);
+    });
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "btn-delete";
+    deleteBtn.innerHTML = "&times;";
+    deleteBtn.title = "Delete task";
+    deleteBtn.addEventListener("click", () => deleteTodo(todo.id));
+
+    right.appendChild(inlinePicker);
+    right.appendChild(deleteBtn);
+
+    li.appendChild(left);
+    li.appendChild(right);
+    todoList.appendChild(li);
+  });
+
+  itemsLeft.textContent = `${activeCount} item${activeCount === 1 ? "" : "s"} left`;
+}
+
+
+async function toggleTodo(id, completed) {
+  if (!currentUser) return;
+  try {
+    await getTodosRef(currentUser.uid).doc(id).update({ completed });
+  } catch (err) {
+    console.error("Error updating status:", err);
+  }
+}
+
+
+async function deleteTodo(id) {
+  if (!currentUser) return;
+  try {
+    await getTodosRef(currentUser.uid).doc(id).delete();
+  } catch (err) {
+    console.error("Error deleting task:", err);
+  }
+}
+
+
+async function updateTodoColor(id, color) {
+  if (!currentUser) return;
+  try {
+    await getTodosRef(currentUser.uid).doc(id).update({ color });
+  } catch (err) {
+    console.error("Error updating task color:", err);
+  }
+}
+
+
+btnClearCompleted.addEventListener("click", async () => {
+  if (!currentUser) return;
+  try {
+    const snapshot = await getTodosRef(currentUser.uid)
+      .where("completed", "==", true)
+      .get();
+
+    const batch = db.batch();
+    snapshot.forEach((doc) => batch.delete(doc.ref));
+    await batch.commit();
+  } catch (err) {
+    console.error("Error clearing tasks:", err);
+  }
+});
 
