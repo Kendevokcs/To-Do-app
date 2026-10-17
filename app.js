@@ -14,7 +14,6 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // értékek
-const createColorOptions = document.getElementById("create-color-options");
 const loggedOutView = document.getElementById("logged-out-view");
 const loggedInView = document.getElementById("logged-in-view");
 const userDisplay = document.getElementById("user-display");
