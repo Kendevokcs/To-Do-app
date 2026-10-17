@@ -14,6 +14,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // értékek
+const createColorOptions = document.getElementById("create-color-options");
 const loggedOutView = document.getElementById("logged-out-view");
 const loggedInView = document.getElementById("logged-in-view");
 const userDisplay = document.getElementById("user-display");
@@ -32,6 +33,7 @@ const authPassword = document.getElementById("auth-password");
 const authSubmitBtn = document.getElementById("auth-submit-btn");
 const authError = document.getElementById("auth-error");
 const btnGuestLogin = document.getElementById("btn-guest-login");
+const createColorOptions = document.getElementById("create-color-options");
 
 const todoForm = document.getElementById("todo-form");
 const todoInput = document.getElementById("todo-input");
@@ -44,6 +46,7 @@ const btnClearCompleted = document.getElementById("btn-clear-completed");
 let currentUser = null;
 let unsubscribeTodos = null;
 let currentAuthMode = "login"; 
+let selectedColor = "default";
 
 auth.onAuthStateChanged((user) => {
   currentUser = user;
