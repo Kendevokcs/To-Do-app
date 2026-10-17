@@ -139,11 +139,11 @@ btnLogout.addEventListener("click", () => {
   auth.signOut();
 });
 function getTodosRef(userId) {
-  // own 'todos' for each user
+  
   return db.collection("users").doc(userId).collection("todos");
 }
 
-// real time sync
+
 function listenToTodos(userId) {
   todoStatusMessage.textContent = "Loading tasks...";
   todoStatusMessage.classList.remove("hidden");
@@ -167,8 +167,31 @@ function listenToTodos(userId) {
       }
     );
 }
- todoInput.value = ""; 
-  todoInput.focus() 
+todoForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const text = todoInput.value.trim();
+  if (!text) return;
 
+  if (!currentUser) {
+    openModal("login");
+    return;
+  }
+
+  todoInput.value = ""; 
+  todoInput.focus() // kurzor visszaugrik
+
+  try {
+    await getTodosRef(currentUser.uid).add({
+      text: text,
+      completed: false,
+      color: selectedColor,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    todoInput.value = "";
+  } catch (err) {
+    console.error("Error adding task:", err);
+    alert("Could not save task. Please try again.");
+  }
+});
 
 
